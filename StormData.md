@@ -6,20 +6,20 @@ output: html_document
 ---
 
 ### Synopsis
-#### In this report, we aim to analyze the impact of different weather events on public health and economy based on the storm database collected from the U.S. National Oceanic and Atmospheric Administration's (NOAA) from 1950 - 2011. We will use the estimates of fatalities, injuries, property and crop damage to decide which types of event are most harmful to the population health and economy. 
+#### Storms and other severe weather events can cause both public health and economic problems for communities and municipalities. Many severe events can result in fatalities, injuries, and property damage, and preventing such outcomes to the extent possible is a key concern.The aim of this project is to analyze the impact of different weather events on public health and economy based on the storm database collected from the U.S. National Oceanic and Atmospheric Administration's (NOAA) from 1950 - 2011. This database tracks characteristics of major storms and weather events in the United States, including when and where they occur, as well as estimates of any fatalities, injuries, and property damage. We will use the estimates of fatalities, injuries, property and crop damage to decide which types of event are most harmful to the population health and economy. 
 
-### Basic settings
+### Preparing the environment
 
 ```{r echo=TRUE }
 options(scipen=1)
-suppressMessages(library(R.utils))
+suppressMessages(library(R.utils)) #suppress message when calling out R.utils library
 library(ggplot2)
 library(plyr)
 library(gridExtra)
 ```
 
 ### Getting and Cleaning the Data
-First, we download the data file and unzip it.
+Download the data file from the provided URL and unzip it.
 
 ```{r}
 if (!"stormData.csv.bz2" %in% dir("./data/")) {
@@ -27,19 +27,16 @@ download.file("http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.c
 bunzip2("data/stormData.csv.bz2", overwrite=T, remove=F)
 }
 ```
-Then, we read the generated csv file. If the data already exists in the working environment, we do not need to load it again. Otherwise, we read the csv file.
+Read the generated csv file.
+(note: if the data already exists in the working environment, we do not need to load it again. Otherwise, we read the csv file.)
 ```{r}
 if (!"stormData" %in% ls()) {
     stormData <- read.csv("data/stormData.csv", sep = ",")
 }
 dim(stormData)
-```
-
-```{r}
 head(stormData, n = 2)
 ```
-There are 902297 rows and 37 columns in total.
-The events in the database start in the year 1950 and end in November 2011. In the earlier years of the database there are generally fewer events recorded, most likely due to a lack of good records. More recent years should be considered more complete.
+There are 902297 rows and 37 columns in total started in the year 1950 and end in November 2011. Lack of good records observed in the earlier year.
 
 ```{r}
 if (dim(stormData)[2] == 37) {
